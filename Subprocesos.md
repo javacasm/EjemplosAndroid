@@ -117,6 +117,22 @@ Nos permite hacer un trabajo de forma asíncrona (sin esperar a que temine) y no
 
 Los métodos onPreExecute, onPostExecute y onProgressUpdate se ejecutan en el subproceso de la IU
 
+### Proceso
+
+1. Creamos la clase que hereda de AsyncTask<Params,Progress,Result>
+
+Se trata de una implementación que usa Generic, es decir, tenemos que especificar los tipos para nuestra implementación
+
+![AsyncTask Syntax](./images/AsyncTask_generic.png)
+
+1. Implementamos los métodos del interface
+
+![methods](./images/AsyncTask_Implement_methods.png)
+
+Y completamos el código
+
+[Código completo](https://github.com/javacasm/AsyncTAsk)
+
 ## Referencias
 
 [Tutorial de Android sobre procesos y Subprocesos](https://developer.android.com/guide/components/processes-and-threads.html?hl=es)
