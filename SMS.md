@@ -6,23 +6,26 @@ Tenemos 2 formas de enviar SMS desde una aplicación Android (como para casi tod
 
 * Usando una aplicación ya existente
 
-      Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-      sendIntent.putExtra("sms_body", "Texto a enviar");
-      sendIntent.putExtra("address", "NUMERO");
-      sendIntent.setType("vnd.android-dir/mms-sms");
-      startActivity(sendIntent);
+        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+        sendIntent.putExtra("sms_body", "Texto a enviar");
+        sendIntent.putExtra("address", "NUMERO");
+        sendIntent.setType("vnd.android-dir/mms-sms");
+        startActivity(sendIntent);
 
 * Usando nuestro própio código (https://developer.android.com/reference/android/telephony/gsm/SmsManager.html#sendTextMessage(java.lang.String, java.lang.String, java.lang.String, android.app.PendingIntent, android.app.PendingIntent))
 
-      SmsManager smsManager = SmsManager.getDefault();
-      smsManager.sendTextMessage("phoneNo", null, "sms message", null, null);
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage("phoneNo", null, "sms message", null, null);
 
-Necesitaremos el permiso android.permission.SEND_SMS
+Tendremos que añadir en AndroidManifest.xml el permiso android.permission.SEND_SMS
+
+
+      <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
 
 
 ## Recepción
 
-Utilizaremos un BackGroundReceiver, una aplicación que recibe eventos del sistema
+Para la recepción de SMS utilizaremos un BackgroundReceiver (una aplicación que recibe eventos del sistema como avisos de llamadas, sms, avisos de batería baja)
 
     public class IncomingSms extends BroadcastReceiver {
         // acceso al SmsManager
@@ -38,16 +41,16 @@ Utilizaremos un BackGroundReceiver, una aplicación que recibe eventos del siste
                     final Object[] pdusObj = (Object[]) bundle.get("pdus");
                     for (int i = 0; i < pdusObj.length; i++) {
 
-          SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-          String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-          String senderNum = phoneNumber;
-          String message = currentMessage.getDisplayMessageBody();
+                        SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                        String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+                        String senderNum = phoneNumber;
+                        String message = currentMessage.getDisplayMessageBody();
 
 
-           // Show Alert
-    	 int duration = Toast.LENGTH_LONG;
-          Toast toast = Toast.makeText(context,
-                 "senderNum: "+ senderNum + ", message: " + message, duration);
+                        // Show Alert
+                  	    int duration = Toast.LENGTH_LONG;
+                        Toast toast = Toast.makeText(context,
+                               "senderNum: "+ senderNum + ", message: " + message, duration);
                         toast.show();
 
                     }
@@ -59,7 +62,7 @@ Utilizaremos un BackGroundReceiver, una aplicación que recibe eventos del siste
         }
     }
 
-Y añadimos a nuestro AndroidManifest.xml
+Y lo registramos en nuestro AndroidManifest.xml
 
 
     <receiver android:name=".IncomingSms">
