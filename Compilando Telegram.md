@@ -9,3 +9,7 @@ Vamos a ver cómo compilar una aplicación profesional como es el cliente para A
 1. Actualizamos los componentes que nos faltan (en mi caso una versión de Gradle y NDK)
 1. "File google-service.json missing"
 1. Creamos nuestro propio fichero "google-service.json" https://developers.google.com/mobile/add
+
+
+
+Otra opción es [trabajar con el API](https://core.telegram.org/#telegram-api) desde nuestra aplicación
